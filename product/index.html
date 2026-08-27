@@ -166,6 +166,126 @@
       color: var(--primary)
     }
 
+    /* ===== HERO CAROUSEL ===== */
+    .hero-carousel {
+      max-width: 1400px;
+      margin: 24px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+    }
+    .slides {
+      display: flex;
+      transition: transform .6s ease;
+    }
+    .slide {
+      min-width: 100%;
+      min-height: 460px;
+      padding: 70px 7%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #000b 0%, #0007 48%, #0002 100%);
+    }
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+    }
+    .slide h1 {
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: .98;
+      margin: 18px 0;
+    }
+    .slide p {
+      max-width: 560px;
+      line-height: 1.7;
+      color: #eee;
+    }
+    .slide-btn {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 14px 22px;
+      border-radius: 13px;
+      background: #fff;
+      color: #111;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffffd9;
+      color: #111;
+      font-size: 18px;
+    }
+    .carousel-arrow.prev { left: 20px; }
+    .carousel-arrow.next { right: 20px; }
+    .dots {
+      position: absolute;
+      z-index: 5;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border-radius: 50%;
+      background: #ffffff88;
+    }
+    .dot.active { width: 26px; border-radius: 10px; background: #fff; }
+
+    /* ===== CHECKOUT ===== */
+    .checkout-modal {
+      width: min(720px, 100%);
+    }
+    .checkout-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 5px;
+    }
+    .checkout-title i {
+      color: var(--primary);
+      background: var(--soft);
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+    }
+    .checkout-note {
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+    .checkout-summary {
+      background: var(--soft);
+      border-radius: 15px;
+      padding: 13px 16px;
+      margin: 5px 0 18px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+    }
+    .required-label::after { content: " *"; color: #ef4444; }
     .hero {
       max-width: 1400px;
       margin: 24px auto;
@@ -605,6 +725,11 @@
     }
 
     @media(max-width:800px) {
+      .slide { min-height: 420px; padding: 55px 8%; }
+      .carousel-arrow { width: 38px; height: 38px; }
+      .carousel-arrow.prev { left: 12px; }
+      .carousel-arrow.next { right: 12px; }
+
       #dashboardBtn {
         padding: 10px 11px;
         font-size: 12px
@@ -713,19 +838,39 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
-      <div style="font-weight:800">✨ NEW FASHION COLLECTION</div>
-      <h1>Discover<br>Clothes <span>You Love</span></h1>
-      
-      <button onclick="document.getElementById('store').scrollIntoView()">Shop Now <i
-          class="fa-solid fa-arrow-right"></i></button>
+  <section class="hero-carousel" aria-label="SHOPX featured collections">
+    <div class="slides" id="heroSlides">
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1800&q=85')">
+        <div class="slide-content">
+          <div style="font-weight:900;letter-spacing:1px">✨ NEW SEASON</div>
+          <h1>Wear Your<br>Confidence.</h1>
+          <p>Fresh looks, timeless essentials and statement pieces made for your everyday style.</p>
+          <a class="slide-btn" href="#store">Shop Collection <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=85')">
+        <div class="slide-content">
+          <div style="font-weight:900;letter-spacing:1px">🔥 TRENDING NOW</div>
+          <h1>Find Your<br>Perfect Look.</h1>
+          <p>Explore curated men's and women's fashion, from casual basics to standout outfits.</p>
+          <a class="slide-btn" href="#store">Explore Fashion <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1800&q=85')">
+        <div class="slide-content">
+          <div style="font-weight:900;letter-spacing:1px">💫 SHOP THE LOOK</div>
+          <h1>Style That<br>Feels Like You.</h1>
+          <p>Discover dresses, tops, shoes, jackets and accessories in one stylish destination.</p>
+          <a class="slide-btn" href="#store">Shop Now <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </article>
     </div>
-    <div class="floating">
-      <div class="bubble"><i class="fa-solid fa-shirt"></i></div>
-      <div class="bubble"><i class="fa-solid fa-person-dress"></i></div>
-      <div class="bubble"><i class="fa-solid fa-shirt"></i></div>
-      <div class="bubble"><i class="fa-solid fa-shoe-prints"></i></div>
+    <button class="carousel-arrow prev" onclick="moveSlide(-1)" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="carousel-arrow next" onclick="moveSlide(1)" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="dots" id="carouselDots">
+      <button class="dot active" onclick="goSlide(0)" aria-label="Slide 1"></button>
+      <button class="dot" onclick="goSlide(1)" aria-label="Slide 2"></button>
+      <button class="dot" onclick="goSlide(2)" aria-label="Slide 3"></button>
     </div>
   </section>
 
@@ -803,6 +948,64 @@
     </div>
   </div>
 
+  <div id="checkoutOverlay" class="overlay">
+    <div class="modal checkout-modal">
+      <button class="close" onclick="closeCheckout()">×</button>
+      <div class="checkout-title">
+        <i class="fa-solid fa-location-dot"></i>
+        <div>
+          <h2 style="margin:0">Checkout</h2>
+          <small style="color:var(--muted)">Tell us where to deliver your order.</small>
+        </div>
+      </div>
+
+      <p class="checkout-note">Please complete your information before placing the order.</p>
+      <div class="checkout-summary">
+        <span>Your total</span>
+        <span id="checkoutTotal">$0.00</span>
+      </div>
+
+      <form id="checkoutForm">
+        <label class="required-label">Full Name</label>
+        <input class="field" id="checkoutName" placeholder="e.g. John Smith" required>
+
+        <div class="form-row">
+          <div>
+            <label class="required-label">Phone Number</label>
+            <input class="field" id="checkoutPhone" type="tel" placeholder="e.g. 012 345 678" required>
+          </div>
+          <div>
+            <label class="required-label">City / Province</label>
+            <input class="field" id="checkoutCity" placeholder="e.g. Phnom Penh" required>
+          </div>
+        </div>
+
+        <label class="required-label">Delivery Address</label>
+        <textarea class="field" id="checkoutAddress" rows="3" placeholder="House number, street, district..." required></textarea>
+
+        <div class="form-row">
+          <div>
+            <label>Postal Code</label>
+            <input class="field" id="checkoutPostal" placeholder="Optional">
+          </div>
+          <div>
+            <label class="required-label">Payment Method</label>
+            <select class="field" id="checkoutPayment" required>
+              <option value="">Select payment method</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              <option value="Card">Credit / Debit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="primary" type="submit">
+          <i class="fa-solid fa-lock"></i> Place Order
+        </button>
+      </form>
+    </div>
+  </div>
+
   <div id="cartPanel" class="cart-panel">
     <div class="cart-head">
       <h2><i class="fa-solid fa-cart-shopping"></i> Cart</h2><button class="close" style="position:static"
@@ -823,6 +1026,68 @@
     let selectedId = null;
 
     
+
+
+    // ===== PRODUCT ACTIONS =====
+    function addToCartButton(productId) {
+      const result = addToCart(Number(productId));
+      showToast(result.message, result.ok ? "success" : "error");
+      if (result.ok) renderCart();
+    }
+
+    function openProductDetail(productId) {
+      const product = getProducts().find(p => Number(p.id) === Number(productId));
+
+      if (!product) {
+        showToast("Product not found.", "error");
+        return;
+      }
+
+      selectedId = Number(product.id);
+      localStorage.setItem("selectedProductId", String(product.id));
+
+      const rating = productRating(product);
+      const reviews = product.reviews || [];
+
+      document.getElementById("detailContent").innerHTML = `
+        <div class="detail-product">
+          <img src="${escapeHTML(product.image)}"
+               alt="${escapeHTML(product.name)}"
+               style="width:100%;max-height:430px;object-fit:cover;border-radius:16px;">
+          <div style="padding-top:20px;">
+            <span class="tag">${escapeHTML(product.category)}</span>
+            <h2 style="margin:12px 0 8px;">${escapeHTML(product.name)}</h2>
+            <div style="color:var(--muted);margin-bottom:10px;">
+              ${stars(rating)} ${rating ? rating.toFixed(1) : "No rating"}
+              · ${reviews.length} review${reviews.length === 1 ? "" : "s"}
+            </div>
+            <h3 style="font-size:28px;margin:10px 0;">$${Number(product.price).toFixed(2)}</h3>
+            <p style="color:var(--muted);line-height:1.7;">
+              ${escapeHTML(product.description || "No description available.")}
+            </p>
+            <p><strong>Stock:</strong> ${Number(product.stock)}</p>
+
+            <button class="primary"
+                    onclick="addToCartButton(${Number(product.id)}); closeDetail();"
+                    ${Number(product.stock) <= 0 ? "disabled" : ""}>
+              <i class="fa-solid fa-cart-plus"></i>
+              ${Number(product.stock) > 0 ? "Add to Cart" : "Out of Stock"}
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("detailOverlay").classList.add("show");
+    }
+
+    // Keep the old name working too, in case another part of the page calls it.
+    function add(productId) {
+      addToCartButton(productId);
+    }
+
+    function openDetail(productId) {
+      openProductDetail(productId);
+    }
 
     function renderProducts() {
     const q = document.getElementById("search").value.toLowerCase().trim();
@@ -850,7 +1115,7 @@
         ? products.map(p => `
             <article class="product">
                 <div class="photo">
-                    <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
+                    <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" onerror="this.src='https://placehold.co/900x1100?text=SHOPX';">
                     <span class="tag">${escapeHTML(p.category)}</span>
                 </div>
 
@@ -864,12 +1129,12 @@
 
                     <div class="row">
                         <div class="price">$${Number(p.price).toFixed(2)}</div>
-                        <button class="add" onclick="add(${p.id})">
+                        <button class="add" onclick="addToCartButton(${p.id})">
                             <i class="fa-solid fa-cart-plus"></i>
                         </button>
                     </div>
 
-                    <button class="view" onclick="openDetail(${p.id})">
+                    <button class="view" onclick="openProductDetail(${p.id})">
                         View Product
                     </button>
                 </div>
@@ -943,10 +1208,91 @@
     function openCart() { renderCart(); document.getElementById("cartPanel").classList.add("open") }
     function closeCart() { document.getElementById("cartPanel").classList.remove("open") }
     function buy() {
-      const r = checkout();
-      showToast(r.message, r.ok ? "success" : "error");
-      if (r.ok) { renderProducts(); renderCart(); closeCart(); }
+      if (!getCurrentUser()) {
+        showToast("Please login before checking out.", "error");
+        return;
+      }
+      if (!getCart().length) {
+        showToast("Your cart is empty.", "error");
+        return;
+      }
+
+      const user = getCurrentUser();
+      const saved = JSON.parse(localStorage.getItem("shopx_checkout_" + user.id) || "null");
+
+      document.getElementById("checkoutName").value = saved?.name || user.name || "";
+      document.getElementById("checkoutPhone").value = saved?.phone || "";
+      document.getElementById("checkoutAddress").value = saved?.address || "";
+      document.getElementById("checkoutCity").value = saved?.city || "";
+      document.getElementById("checkoutPostal").value = saved?.postalCode || "";
+      document.getElementById("checkoutPayment").value = saved?.payment || "";
+      document.getElementById("checkoutTotal").textContent = "$" + cartTotal().toFixed(2);
+
+      document.getElementById("checkoutOverlay").classList.add("show");
     }
+
+    function closeCheckout() {
+      document.getElementById("checkoutOverlay").classList.remove("show");
+    }
+
+    document.getElementById("checkoutForm").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const info = {
+        name: document.getElementById("checkoutName").value.trim(),
+        phone: document.getElementById("checkoutPhone").value.trim(),
+        address: document.getElementById("checkoutAddress").value.trim(),
+        city: document.getElementById("checkoutCity").value.trim(),
+        postalCode: document.getElementById("checkoutPostal").value.trim(),
+        payment: document.getElementById("checkoutPayment").value
+      };
+
+      if (!info.name || !info.phone || !info.address || !info.city || !info.payment) {
+        showToast("Please fill in all required information.", "error");
+        return;
+      }
+
+      const user = getCurrentUser();
+      localStorage.setItem("shopx_checkout_" + user.id, JSON.stringify(info));
+
+      const r = checkout(info);
+      showToast(r.message, r.ok ? "success" : "error");
+
+      if (r.ok) {
+        e.target.reset();
+        closeCheckout();
+        renderProducts();
+        renderCart();
+        closeCart();
+      }
+    });
+
+    // ===== HERO CAROUSEL =====
+    let currentSlide = 0;
+    let carouselTimer;
+
+    function updateCarousel() {
+      const slides = document.getElementById("heroSlides");
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      document.querySelectorAll(".dot").forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
+    }
+
+    function goSlide(index) {
+      currentSlide = (index + 3) % 3;
+      updateCarousel();
+      restartCarousel();
+    }
+
+    function moveSlide(direction) {
+      goSlide(currentSlide + direction);
+    }
+
+    function restartCarousel() {
+      clearInterval(carouselTimer);
+      carouselTimer = setInterval(() => moveSlide(1), 5000);
+    }
+
+    restartCarousel();
 
     document.querySelectorAll(".gender").forEach(btn => btn.addEventListener("click", () => {
       document.querySelectorAll(".gender").forEach(x => x.classList.remove("active"));
@@ -988,7 +1334,12 @@
         document.getElementById("clientBtn").classList.add("hidden");
       }
     }
-    updateUser(); renderProducts(); renderCart();
+    // app.js seeds products on DOMContentLoaded, but this inline script renders immediately.
+    // Seed here as well so the first render always has products.
+    seedProducts();
+    updateUser();
+    renderProducts();
+    renderCart();
   </script>
 
   <!-- SHOPX PRODUCT REVIEW -->

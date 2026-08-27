@@ -826,24 +826,27 @@ function cartTotal() {
   }, 0);
 }
 
-function checkout() {
+function checkout(customerInfo = null) {
   const user = getCurrentUser();
   if (!user) return { ok: false, message: "Please login first." };
 
   const cart = getCart();
   if (!cart.length) return { ok: false, message: "Your cart is empty." };
 
+  if (!customerInfo || !customerInfo.name || !customerInfo.phone || !customerInfo.address || !customerInfo.city || !customerInfo.payment) {
+    return { ok: false, message: "Please complete your checkout information." };
+  }
+
   const products = getProducts();
   const orderItems = [];
 
+  // Check stock first so an order can never partially reduce inventory.
   for (const item of cart) {
     const product = products.find((p) => p.id === item.id);
     if (!product) continue;
     if (product.stock < item.qty) {
       return { ok: false, message: `Not enough stock for ${product.name}.` };
     }
-
-    product.stock -= item.qty;
     orderItems.push({
       productId: product.id,
       name: product.name,
@@ -852,14 +855,25 @@ function checkout() {
     });
   }
 
-  const orders = getOrders();
-  const total = orderItems.reduce((s, i) => s + i.price * i.qty, 0);
+  const total = orderItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
+  // Reduce stock only after every item has passed validation.
+  orderItems.forEach(item => {
+    const product = products.find(p => p.id === item.productId);
+    if (product) product.stock -= item.qty;
+  });
+
+  const orders = getOrders();
   orders.push({
     id: "ORD-" + Date.now(),
     userId: user.id,
-    customer: user.name,
+    customer: customerInfo.name,
     email: user.email,
+    phone: customerInfo.phone,
+    address: customerInfo.address,
+    city: customerInfo.city,
+    postalCode: customerInfo.postalCode || "",
+    payment: customerInfo.payment,
     items: orderItems,
     total,
     status: "Completed",
