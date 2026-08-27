@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHOPX Fashion - My Account</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #fff;
+      --text: #17171c;
+      --muted: #73747d;
+      --primary: #7c3aed;
+      --soft: #f1efff;
+      --line: #e7e7ef;
+      --green: #16a34a;
+      --red: #ef4444;
+    }
+
+    [data-theme=dark] {
+      --bg: #0d0d12;
+      --card: #18181f;
+      --text: #fff;
+      --muted: #aaaab3;
+      --primary: #a78bfa;
+      --soft: #282332;
+      --line: #30303a;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    button,
+    a {
+      font: inherit
+    }
+
+    button {
+      border: 0;
+      cursor: pointer
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #ffffffd9;
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 15px
+    }
+
+    [data-theme=dark] .nav {
+      background: #111118dd
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 950
+    }
+
+    .logo i,
+    .logo span {
+      color: var(--primary)
+    }
+
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .btn,
+    .icon {
+      border-radius: 12px;
+      padding: 11px 15px;
+      background: var(--soft);
+      color: var(--text)
+    }
+
+    .primary {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      padding: 0
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px
+    }
+
+    .hero {
+      border-radius: 25px;
+      padding: 30px;
+      background: linear-gradient(135deg, #171125, #4c1d95, #7c3aed);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      overflow: hidden
+    }
+
+    .hero h1 {
+      margin: 7px 0;
+      font-size: 38px
+    }
+
+    .hero p {
+      color: #e9e3f7;
+      margin: 0
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 28px;
+      background: #ffffff1c;
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      font-size: 38px;
+      flex: none
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 22px
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px #00000008
+    }
+
+    .stat-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      background: var(--soft);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 27px
+    }
+
+    .muted {
+      color: var(--muted)
+    }
+
+    .section {
+      margin-top: 25px
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px
+    }
+
+    .section-head h2 {
+      margin: 0
+    }
+
+    .order {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      margin: 12px 0
+    }
+
+    .order-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center
+    }
+
+    .order-id {
+      font-weight: 900
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 12px;
+      font-weight: 800
+    }
+
+    .order-items {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .total {
+      font-weight: 950;
+      color: var(--primary);
+      font-size: 18px
+    }
+
+    .empty {
+      text-align: center;
+      padding: 45px;
+      color: var(--muted)
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 30px;
+      text-align: center;
+      background: #111;
+      color: #aaa
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #17171c;
+      color: #fff;
+      padding: 13px 17px;
+      border-radius: 12px;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: .3s;
+      z-index: 50
+    }
+
+    .toast.show {
+      transform: none;
+      opacity: 1
+    }
+
+    .toast.error {
+      background: #b91c1c
+    }
+
+    @media(max-width:800px) {
+      .grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .hero {
+        padding: 25px
+      }
+
+      .hero h1 {
+        font-size: 30px
+      }
+    }
+
+    @media(max-width:560px) {
+      .nav {
+        padding: 12px 14px
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .hero {
+        display: block
+      }
+
+      .avatar {
+        margin-top: 20px
+      }
+
+      .hero h1 {
+        font-size: 27px
+      }
+
+      .nav .btn span {
+        display: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <a class="logo" href="../product/index.html">
+      <i class="fa-solid fa-bag-shopping"></i> SHOP<span>X</span>
+    </a>
+    <div class="nav-right">
+      <a class="btn" href="../product/index.html"><i class="fa-solid fa-store"></i> <span>Store</span></a>
+      <button class="icon" onclick="toggleTheme()"><i id="themeIcon" class="fa-solid fa-moon"></i></button>
+      <button class="btn primary" onclick="logoutUser();location.href='../auth/login.html'">
+        <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div style="font-size:12px;font-weight:900;letter-spacing:1px">MY SHOPX ACCOUNT</div>
+        <h1>Hello, <span id="heroName">Customer</span> 👋</h1>
+        <p>Manage your account, orders and shopping activity.</p>
+      </div>
+      <div class="avatar"><i class="fa-solid fa-user"></i></div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="stat-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <h2 id="cartCount">0</h2>
+        <p class="muted">Items in Cart</p>
+      </div>
+      <div class="card">
+        <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
+        <h2 id="orderCount">0</h2>
+        <p class="muted">My Orders</p>
+      </div>
+      <div class="card">
+        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+        <h2 id="reviewCount">0</h2>
+        <p class="muted">My Reviews</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Account Information</h2>
+        <a class="btn" href="../product/index.html">Continue Shopping</a>
+      </div>
+      <div class="card">
+        <p><b>Name:</b> <span id="name"></span></p>
+        <p><b>Email:</b> <span id="email"></span></p>
+        <p><b>Account:</b> <span style="color:var(--green);font-weight:800">Active</span></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>My Orders</h2>
+      </div>
+      <div id="orders"></div>
+    </section>
+  </main>
+
+  <footer>© 2026 SHOPX — Customer Account</footer>
+
+  <script src="../js/app.js"></script>
+  <script>
+    if (!requireLogin()) throw new Error("Login required");
+
+    function renderAccount() {
+      const user = getCurrentUser();
+      const orders = getOrders().filter(o => o.userId === user.id || o.email === user.email);
+      const products = getProducts();
+
+      document.getElementById("heroName").textContent = user.name;
+      document.getElementById("name").textContent = user.name;
+      document.getElementById("email").textContent = user.email;
+      document.getElementById("cartCount").textContent = cartCount();
+      document.getElementById("orderCount").textContent = orders.length;
+
+      let reviews = 0;
+      products.forEach(p => {
+        (p.reviews || []).forEach(r => {
+          if (r.user === user.name) reviews++;
+        });
+      });
+      document.getElementById("reviewCount").textContent = reviews;
+
+      const box = document.getElementById("orders");
+      if (!orders.length) {
+        box.innerHTML = `<div class="card empty">
+      <i class="fa-solid fa-box-open" style="font-size:42px"></i>
+      <p>You have no orders yet.</p>
+      <a class="btn primary" href="../product/index.html">Shop Now</a>
+    </div>`;
+        return;
+      }
+
+      box.innerHTML = orders.slice().reverse().map(o => `
+    <div class="order">
+      <div class="order-head">
+        <div>
+          <div class="order-id">${escapeHTML(o.id)}</div>
+          <small class="muted">${new Date(o.createdAt).toLocaleString()}</small>
+        </div>
+        <span class="status">${escapeHTML(o.status)}</span>
+      </div>
+      <div class="order-items">
+        ${(o.items || []).map(i => `
+          <div><b>${escapeHTML(i.name)}</b> × ${i.qty} — $${(i.price * i.qty).toFixed(2)}</div>
+        `).join("")}
+      </div>
+      <div class="total">Total: $${Number(o.total).toFixed(2)}</div>
+    </div>
+  `).join("");
+    }
+
+    renderAccount();
+  </script>
+</body>
+
+</html>

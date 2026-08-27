@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHOPX - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #fff;
+      --text: #17171c;
+      --muted: #70717a;
+      --primary: #7c3aed;
+      --line: #e8e8ef
+    }
+
+    [data-theme=dark] {
+      --bg: #0d0d12;
+      --card: #18181f;
+      --text: #fff;
+      --muted: #a5a5af;
+      --line: #30303a
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #ede9fe, transparent 30%), var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px
+    }
+
+    .card {
+      width: min(440px, 100%);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: 0 30px 80px #00000015;
+      animation: up .55s ease
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(25px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 24px
+    }
+
+    .brand i,
+    .brand span {
+      color: var(--primary)
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 22px;
+      background: #ede9fe;
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      margin: 0 auto 16px
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 8px
+    }
+
+    .sub {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 0 25px
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      display: block;
+      margin: 14px 0 7px
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: transparent;
+      color: var(--text);
+      outline: none
+    }
+
+    input:focus {
+      border-color: var(--primary)
+    }
+
+    button {
+      border: 0;
+      cursor: pointer
+    }
+
+    .primary {
+      width: 100%;
+      padding: 14px;
+      border-radius: 13px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      margin-top: 20px;
+      font-size: 15px
+    }
+
+    .primary:hover {
+      filter: brightness(.95);
+      transform: translateY(-1px)
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .links a {
+      color: var(--primary);
+      font-weight: 800;
+      text-decoration: none
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px
+    }
+
+    .back {
+      color: var(--muted);
+      text-decoration: none
+    }
+
+    .theme {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--line);
+      color: var(--text)
+    }
+
+    .demo {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 13px;
+      background: #f3f0ff;
+      color: #5b21b6;
+      font-size: 12px
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #17171c;
+      color: #fff;
+      padding: 13px 17px;
+      border-radius: 12px;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: .3s;
+      z-index: 20
+    }
+
+    .toast.show {
+      transform: none;
+      opacity: 1
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="top">
+      <a class="back" href="../product/index.html"><i class="fa-solid fa-arrow-left"></i> Store</a>
+      <button class="theme" onclick="toggleTheme()"><i id="themeIcon" class="fa-solid fa-moon"></i></button>
+    </div>
+    <div class="brand"><i class="fa-solid fa-bag-shopping"></i> SHOP<span>X</span></div>
+    <div class="icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+    <h1>Welcome back</h1>
+    <p class="sub">Login to continue shopping on SHOPX.</p>
+
+    <form id="loginForm">
+      <label>Email</label>
+      <input id="email" type="email" placeholder="you@example.com" required>
+      <label>Password</label>
+      <input id="password" type="password" placeholder="••••••••" required>
+      <button class="primary" type="submit">Login <i class="fa-solid fa-arrow-right"></i></button>
+    </form>
+
+    <div class="demo"><b>Admin demo:</b> admin@shopx.com / admin123</div>
+    <div class="links">Don't have an account? <a href="signup.html">Create account</a></div>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const result = loginUser(
+        document.getElementById("email").value,
+        document.getElementById("password").value
+      );
+      if (!result.ok) return showToast(result.message, "error");
+      showToast("Login successful!");
+      setTimeout(() => {
+        location.href = result.user.role === "admin" ? "../admin/dashboard.html" : "../product/index.html";
+      }, 500);
+    });
+  </script>
+</body>
+
+</html>

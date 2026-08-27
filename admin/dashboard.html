@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHOPX - Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #fff;
+      --text: #17171c;
+      --muted: #747580;
+      --primary: #7c3aed;
+      --line: #e7e7ef;
+      --danger: #ef4444
+    }
+
+    [data-theme=dark] {
+      --bg: #0d0d12;
+      --card: #18181f;
+      --text: #fff;
+      --muted: #aaaab3;
+      --line: #30303a
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      cursor: pointer
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px 1fr
+    }
+
+    .side {
+      background: #141118;
+      color: #fff;
+      padding: 22px;
+      position: sticky;
+      top: 0;
+      height: 100vh
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 950;
+      margin-bottom: 35px
+    }
+
+    .brand i,
+    .brand span {
+      color: #a78bfa
+    }
+
+    .nav a {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: #aaa;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 12px;
+      margin: 5px 0
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      background: #7c3aed;
+      color: #fff
+    }
+
+    .main {
+      padding: 25px;
+      max-width: 1500px;
+      width: 100%
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px
+    }
+
+    .top h1 {
+      margin: 0
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--line)
+    }
+
+    .store {
+      padding: 11px 15px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px #00000007
+    }
+
+    .stat .ico {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      background: #ede9fe;
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      margin-bottom: 15px
+    }
+
+    .stat h2 {
+      margin: 0;
+      font-size: 28px
+    }
+
+    .stat p {
+      margin: 5px 0 0;
+      color: var(--muted)
+    }
+
+    .panel {
+      margin-top: 25px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden
+    }
+
+    .panel-head {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .panel-head h2 {
+      margin: 0
+    }
+
+    .table-wrap {
+      overflow: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase
+    }
+
+    td img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 10px;
+      vertical-align: middle;
+      margin-right: 10px
+    }
+
+    .pill {
+      padding: 6px 9px;
+      border-radius: 20px;
+      background: #ede9fe;
+      color: #6d28d9;
+      font-size: 11px;
+      font-weight: 800
+    }
+
+    .delete {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 8px 10px;
+      border-radius: 9px
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #17171c;
+      color: #fff;
+      padding: 13px 17px;
+      border-radius: 12px;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: .3s;
+      z-index: 30
+    }
+
+    .toast.show {
+      transform: none;
+      opacity: 1
+    }
+
+    .toast.error {
+      background: #b91c1c
+    }
+
+    @media(max-width:950px) {
+      .layout {
+        grid-template-columns: 80px 1fr
+      }
+
+      .side {
+        padding: 15px
+      }
+
+      .brand {
+        font-size: 0;
+        text-align: center
+      }
+
+      .brand i {
+        font-size: 24px
+      }
+
+      .nav a span {
+        display: none
+      }
+
+      .nav a {
+        justify-content: center
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:600px) {
+      .layout {
+        display: block
+      }
+
+      .side {
+        position: static;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+      }
+
+      .brand {
+        margin: 0
+      }
+
+      .nav {
+        display: flex
+      }
+
+      .nav a {
+        padding: 10px
+      }
+
+      .nav a:nth-child(2),
+      .nav a:nth-child(3) {
+        display: none
+      }
+
+      .main {
+        padding: 15px
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .top h1 {
+        font-size: 23px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="side">
+      <div class="brand"><i class="fa-solid fa-bag-shopping"></i> SHOP<span>X</span></div>
+      <nav class="nav">
+        <a class="active" href="#"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="managequest.html"><i class="fa-solid fa-star"></i><span>Manage Guest Reviews</span></a>
+        <a href="../product/index.html"><i class="fa-solid fa-store"></i><span>Store</span></a>
+        <a href="#" onclick="logoutUser();location.href='../auth/login.html'"><i
+            class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="top">
+        <div>
+          <div style="color:var(--primary);font-size:12px;font-weight:900">SHOPX ADMIN</div>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="actions"><button class="icon" onclick="toggleTheme()"><i id="themeIcon"
+              class="fa-solid fa-moon"></i></button><a class="store" href="../product/index.html">Open Store</a></div>
+      </div>
+
+      <section class="stats">
+        <div class="stat">
+          <div class="ico"><i class="fa-solid fa-box"></i></div>
+          <h2 id="productCount">0</h2>
+          <p>Products</p>
+        </div>
+        <div class="stat">
+          <div class="ico"><i class="fa-solid fa-users"></i></div>
+          <h2 id="userCount">0</h2>
+          <p>Customers</p>
+        </div>
+        <div class="stat">
+          <div class="ico"><i class="fa-solid fa-cart-shopping"></i></div>
+          <h2 id="orderCount">0</h2>
+          <p>Orders</p>
+        </div>
+        <div class="stat">
+          <div class="ico"><i class="fa-solid fa-dollar-sign"></i></div>
+          <h2 id="revenue">$0</h2>
+          <p>Revenue</p>
+        </div>
+        <div class="stat">
+          <div class="ico"><i class="fa-solid fa-star"></i></div>
+          <h2 id="reviewCount">0</h2>
+          <p>Guest Reviews</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Product Management</h2><span id="stockText" style="color:var(--muted)"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Rating</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="productRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Recent Orders</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="orderRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script>
+    if (!requireAdmin()) throw new Error("Not admin");
+
+    function renderDashboard() {
+      const products = getProducts(), users = getUsers().filter(u => u.role !== "admin"), orders = getOrders();
+      document.getElementById("productCount").textContent = products.length;
+      document.getElementById("userCount").textContent = users.length;
+      document.getElementById("orderCount").textContent = orders.length;
+      document.getElementById("revenue").textContent = "$" + orders.reduce((s, o) => s + Number(o.total || 0), 0).toFixed(2);
+      document.getElementById("stockText").textContent = products.reduce((s, p) => s + Number(p.stock || 0), 0) + " units in stock";
+
+      document.getElementById("productRows").innerHTML = products.map(p => `
+    <tr>
+      <td><img src="${escapeHTML(p.image)}">${escapeHTML(p.name)}</td>
+      <td><span class="pill">${escapeHTML(p.category)}</span></td>
+      <td>$${Number(p.price).toFixed(2)}</td>
+      <td>${p.stock}</td>
+      <td>${stars(productRating(p))} (${(p.reviews || []).length})</td>
+      <td><button class="delete" onclick="removeProduct(${p.id})"><i class="fa-solid fa-trash"></i></button></td>
+    </tr>
+  `).join("");
+
+      document.getElementById("orderRows").innerHTML = orders.slice().reverse().slice(0, 10).map(o => `
+    <tr><td>${escapeHTML(o.id)}</td><td>${escapeHTML(o.customer)}</td><td>$${Number(o.total).toFixed(2)}</td><td><span class="pill">${escapeHTML(o.status)}</span></td><td>${new Date(o.createdAt).toLocaleString()}</td></tr>
+  `).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">No orders yet.</td></tr>`;
+    }
+    function removeProduct(id) {
+      if (!confirm("Delete this product?")) return;
+      deleteProduct(id); renderDashboard(); showToast("Product deleted.");
+    }
+    renderDashboard();
+  </script>
+</body>
+
+</html>
